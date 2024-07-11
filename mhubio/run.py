@@ -368,7 +368,6 @@ def run(config_file: Optional[str] = None, config_data: Optional[dict] = None):
     global import_paths
 
     print("CONFIG FILE...")
-    print(config_file)
     # scan local modules
     import_paths = {**import_paths, **scan_local_modules()}
 
