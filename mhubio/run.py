@@ -367,7 +367,7 @@ def get_workflow(execute_chain: List[Union[str, Dict]]) -> List[Tuple[str, Dict]
 def run(config_file: Optional[str] = None, config_data: Optional[dict] = None):
     global import_paths
 
-    print("CONFIG FILE...")
+    print("IN RUN() method")
     # scan local modules
     import_paths = {**import_paths, **scan_local_modules()}
 
@@ -616,7 +616,5 @@ if __name__ == '__main__':
         cleanup()
 
     # run
-    print("config file found before running : ")
-    print(config_file)
-    #run(config_file)
-    print("/app/models/totalsegmentator/config/default.yml")
+    run("/app/models/totalsegmentator/config/default.yml")
+    # print("/app/models/totalsegmentator/config/default.yml")
