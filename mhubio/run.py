@@ -616,5 +616,7 @@ if __name__ == '__main__':
         cleanup()
 
     # run
+    print("config_file:")
+    print(config_file)
     run("/app/models/totalsegmentator/config/default.yml")
     # print("/app/models/totalsegmentator/config/default.yml")
