@@ -619,4 +619,5 @@ if __name__ == '__main__':
     # run
     print("config file found before running : ")
     print(config_file)
-    run(config_file)
+    #run(config_file)
+    print("/app/models/totalsegmentator/config/test.yml")
