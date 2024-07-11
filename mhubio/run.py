@@ -367,7 +367,6 @@ def get_workflow(execute_chain: List[Union[str, Dict]]) -> List[Tuple[str, Dict]
 def run(config_file: Optional[str] = None, config_data: Optional[dict] = None):
     global import_paths
 
-    print("IN RUN() method")
     # scan local modules
     import_paths = {**import_paths, **scan_local_modules()}
 
@@ -554,36 +553,43 @@ if __name__ == '__main__':
 
     # check if stdin is yaml file and if yes, load it as the config
     config_file = None
-    if not sys.stdin.isatty():
-        try:
+    # if not sys.stdin.isatty():
+    #     try:
                 
-            # read input file from stdin and print it then exit
-            stdin_config = yaml.safe_load(sys.stdin)
+    #         # read input file from stdin and print it then exit
+    #         stdin_config = yaml.safe_load(sys.stdin)
             
-            # save a temporary configfile
-            os.makedirs('/app/tmp', exist_ok=True)
-            with open('/app/tmp/stdin_config.yml', 'w') as file:
-                yaml.dump(stdin_config, file)
+    #         # save a temporary configfile
+    #         os.makedirs('/app/tmp', exist_ok=True)
+    #         with open('/app/tmp/stdin_config.yml', 'w') as file:
+    #             yaml.dump(stdin_config, file)
             
-            # overwrite config_file
-            config_file = '/app/tmp/stdin_config.yml'
+    #         # overwrite config_file
+    #         config_file = '/app/tmp/stdin_config.yml'
             
-        except:
-            pass
+    #     except:
+    #         pass
 
     # interactive mode?
     interactive = not args.non_interactive
 
     # scan configurations
     configurations = scan_configurations()
-    print(f"configurations")
-    print(configurations)
 
     # get config file (if provided by one of the supported methods)
     if not config_file:
-        print(f"not config file None...")
         config_file = get_config_path(configurations)
-        print(config_file)
+
+    ############## DIRTY TEMP FIX FOR non-interactive run ####################
+    if args.config is not None:
+        config_file = args.config
+        # assert os.path.isfile(config_file)
+    else:
+        for configuration in configurations:
+            if configuration["name"] == 'default':
+                config_file = configuration['config']
+            else:
+                pass
 
     # check if a config file is provided via the --config argument
     if config_file is None:
@@ -599,7 +605,6 @@ if __name__ == '__main__':
                 sys.exit(0)
 
         else:
-            print(f"config file None and not interactive...")
             print_configurations(configurations)
             sys.exit(0)
 
@@ -616,7 +621,4 @@ if __name__ == '__main__':
         cleanup()
 
     # run
-    print("config_file:")
-    print(config_file)
-    run("/app/models/totalsegmentator/config/default.yml")
-    # print("/app/models/totalsegmentator/config/default.yml")
+    run(config_file)
