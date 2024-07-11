@@ -575,10 +575,14 @@ if __name__ == '__main__':
 
     # scan configurations
     configurations = scan_configurations()
+    print(f"configurations")
+    print(configurations)
 
     # get config file (if provided by one of the supported methods)
     if not config_file:
+        print(f"not config file None...")
         config_file = get_config_path(configurations)
+        print(config_file)
 
     # check if a config file is provided via the --config argument
     if config_file is None:
@@ -594,6 +598,7 @@ if __name__ == '__main__':
                 sys.exit(0)
 
         else:
+            print(f"config file None and not interactive...")
             print_configurations(configurations)
             sys.exit(0)
 
@@ -610,4 +615,6 @@ if __name__ == '__main__':
         cleanup()
 
     # run
+    print("config file found before running : ")
+    print(config_file)
     run(config_file)
